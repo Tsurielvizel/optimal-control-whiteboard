@@ -1,0 +1,27 @@
+# Video & Audio files (large lecture recordings)
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.wav
+*.mp3
+
+# Model weights
+*.pt
+*.onnx
+*.bin
+*.safetensors
+
+# Temporary extraction directories
+extracted_board*/
+extracted_lec*/
+benchmark_output/
+temp_*/
+sample_*/
+
+# Python cache & environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
