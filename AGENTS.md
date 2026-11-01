@@ -34,3 +34,4 @@ $env:PYTHONIOENCODING="utf-8"; python whiteboard_extractor.py "שם_הקובץ.m
    * הקפדה על סימוני וקטורים עם קו תחתי (`\underline{x}`) או נורמות משוקללות (`\|x_{k+1} - x_d\|_Q^2`) כפי שהמרצה כותב.
    * שרטוטים או גרפים על הלוח יש להמיר לתרשים ASCII נקי או לבלוק `mermaid`.
 4. בסיום, נקה את התיקייה הזמנית `extracted_board_temp` ובצע `git add` ו-`git commit`.
+

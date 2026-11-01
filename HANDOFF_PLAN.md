@@ -50,3 +50,4 @@
    gh repo create optimal-control-lectures-ocr --private --source=. --push
    ```
    (אם `gh auth status` מראה שהמשתמש אינו מחובר, פשוט הנחה אותו להריץ `gh auth login` ואז את הפקודה שלעיל).
+

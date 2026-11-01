@@ -201,13 +201,16 @@ class WhiteboardPipeline:
             ink_mask[excl_dil > 0] = 0
 
         num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(ink_mask, connectivity=8)
-        clean_ink = np.zeros_like(ink_mask)
-        for lbl in range(1, num_labels):
-            area = stats[lbl, cv2.CC_STAT_AREA]
-            bw = stats[lbl, cv2.CC_STAT_WIDTH]
-            bh_box = stats[lbl, cv2.CC_STAT_HEIGHT]
-            if 14 <= area <= 20000 and not (bw > 200 and bh_box > 200 and area / max(1, bw * bh_box) > 0.60):
-                clean_ink[labels == lbl] = 255
+        if num_labels <= 1:
+            return np.zeros_like(ink_mask)
+        areas = stats[:, cv2.CC_STAT_AREA]
+        bws = stats[:, cv2.CC_STAT_WIDTH]
+        bhs = stats[:, cv2.CC_STAT_HEIGHT]
+        valid = (areas >= 14) & (areas <= 20000) & ~((bws > 200) & (bhs > 200) & (areas / np.maximum(1, bws * bhs) > 0.60))
+        valid[0] = False
+        lut = np.zeros(num_labels, dtype=np.uint8)
+        lut[valid] = 255
+        clean_ink = lut[labels]
         return clean_ink
 
     @staticmethod
