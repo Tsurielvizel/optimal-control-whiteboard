@@ -9,7 +9,6 @@
 1. **מאגר מקור ההקלטות והחילוץ (`הקלטות לשיפור/`):**
    * הקלטות וידאו מקוריות (`*.mp4`).
    * מנוע חילוץ ראייה ממוחשבת [`whiteboard_extractor.py`](whiteboard_extractor.py).
-   * סקריפט ניקוי שמע אקוסטי [`enhance_lecture_audio.py`](enhance_lecture_audio.py).
    * קובצי סיכומי הלוח המלאים: [`סיכום_לוח_הרצאה_1_מלא.md`](סיכום_לוח_הרצאה_1_מלא.md) ו-[`סיכום_לוח_הרצאה_2.md`](סיכום_לוח_הרצאה_2.md).
    * פרומפט המערכת לסוכן חוברות ההעמקה: [`PROMPT_AGENT_EXPLANATIONS.md`](PROMPT_AGENT_EXPLANATIONS.md).
 
@@ -26,13 +25,7 @@
 
 כאשר מתווספת הרצאה חדשה או כשהמשתמש מבקש לעבד הרצאה:
 
-### שלב 1: שיפור שמע (Audio Enhancement) - אופציונלי
-```powershell
-$env:PYTHONIOENCODING="utf-8"; python enhance_lecture_audio.py "הרצאה X.mp4"
-```
-פעולה זו מנקה הדהוד של אולם ההרצאות ומגבירה דיבור בעברית.
-
-### שלב 2: חילוץ אוטומטי של לוחות הכתב (Computer Vision)
+### שלב 1: חילוץ אוטומטי של לוחות הכתב (Computer Vision)
 מריצים את מנוע הראייה הממוחשבת בשיטת שחזור הרקע הטמפורלי (`temporal_deocclusion`):
 ```powershell
 $env:PYTHONIOENCODING="utf-8"; python whiteboard_extractor.py "הרצאה X.mp4" --interval 6 --output-dir "extracted_board_temp"
@@ -42,7 +35,7 @@ $env:PYTHONIOENCODING="utf-8"; python whiteboard_extractor.py "הרצאה X.mp4"
 2. **הסרת המרצה (YOLO Temporal Deocclusion):** מזהה את המרצה ומשחזר לוח נקי מלא על ידי חיבור פיקסלים שנחשפו בזמנים שונים.
 3. **לכידת שיא דיו לפני מחיקה (`ink_dominance`):** שומר את הלוח במצבו העשיר ביותר לפני שהמרצה מתחיל למחוק.
 
-### שלב 3: תמלול הלוח ל-Markdown (`סיכום_לוח_הרצאה_X.md`)
+### שלב 2: תמלול הלוח ל-Markdown (`סיכום_לוח_הרצאה_X.md`)
 1. פותחים את `extracted_board_temp/keyframes_manifest.json` וסוקרים את הפריימים לפי סדר כרונולוגי.
 2. מתמללים את הכיתוב לקובץ Markdown מדויק:
    * כותרות היררכיות תואמות למרצה.
@@ -51,11 +44,11 @@ $env:PYTHONIOENCODING="utf-8"; python whiteboard_extractor.py "הרצאה X.mp4"
    * המרת סכמות ל-Mermaid או ASCII.
 3. מוחקים את תיקיית `extracted_board_temp` לאחר סיום התמלול.
 
-### שלב 4: הפעלת סוכן חוברות ההעמקה (Explanations Agent)
+### שלב 3: הפעלת סוכן חוברות ההעמקה (Explanations Agent)
 1. מפעילים סוכן ייעודי (או מבצעים את המשימה) תוך שימוש בפרומפט המערכת המוגדר ב-[`PROMPT_AGENT_EXPLANATIONS.md`](PROMPT_AGENT_EXPLANATIONS.md).
 2. מייצרים את חוברות `הסברים_והעמקה.md` לפי כללי ה-BiDi (שורת רווח לפני ואחרי כל בלוק `$$`, ללא הזחות).
 
-### שלב 5: בדיקה, גיט וסנכרון
+### שלב 4: בדיקה, גיט וסנכרון
 1. בודקים סטטוס `git status`.
 2. מבצעים Commit עם תיאור ברור.
 3. מבצעים `git push origin main` במאגר היעד ב-GitHub.
@@ -70,3 +63,4 @@ $env:PYTHONIOENCODING="utf-8"; python whiteboard_extractor.py "הרצאה X.mp4"
   `git status`
 * **חיבור ל-GitHub במידה ונדרש אימות:**
   `gh auth login`
+
