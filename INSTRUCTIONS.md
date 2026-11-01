@@ -54,3 +54,4 @@
    git commit -m "Add full whiteboard summary and deep explanations for Lecture X"
    ```
 4. הצג למשתמש סיכום קצר וקישורים לחיצים לקבצים שנוצרו.
+
